@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.dao.SysDeptDao">
+
+    <select id="findListByMap" resultType="com.bootdo.domain.SysDeptDO">
+    	SELECT 
+    	  * 
+    	FROM 
+    	  sys_dept 
+    	<where>
+            <if test="id != null and id != ''"> AND id = #{id} </if>
+            AND status = 0
+        </where>
+    </select>
+    
+    <insert id="save" parameterType="com.bootdo.validator.SysDeptDOForm"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO 
+		  sys_dept
+		(
+		dept_name,
+		pid,
+		pids,
+		remark,
+		created_date,
+		updated_date
+		)
+		VALUES
+		(
+		#{deptName},
+		#{pid},
+		#{pids},
+		#{remark},
+		#{createdDate},
+		#{updatedDate}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.bootdo.validator.SysDeptDOForm">
+		UPDATE 
+		  sys_dept
+		<set>
+			<if test="deptName != null"> dept_name = #{deptName}, </if>
+			<if test="pid != null"> pid = #{pid}, </if>
+			<if test="pids != null"> pids = #{pids}, </if>
+			<if test="remark != null"> remark = #{remark}, </if>
+			<if test="createdDate != null"> created_date = #{createdDate}, </if>
+			<if test="updatedDate != null"> updated_date = #{updatedDate}, </if>
+			<if test="status != null"> status = #{status}</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<select id="findSysDeptIdsById" resultType="java.lang.Long">
+    	SELECT 
+    	  id 
+    	FROM 
+    	  sys_dept 
+    	WHERE 
+    	  id = #{id}
+  		UNION ALL
+		SELECT 
+		  id 
+		FROM 
+		  sys_dept 
+		WHERE 
+		  pids 
+		LIKE CONCAT('%[', #{id}, ']%')
+    </select>
+    
+    <update id="batchUpdateByMap" parameterType="java.util.Map">
+		UPDATE 
+		  sys_dept
+		SET 
+		  updated_date = #{updatedDate}, 
+		  status = 
+		<foreach collection="sysDeptIds" item="item" index="index" separator=" " open="CASE id" close="END">
+	      WHEN #{item} THEN #{status}
+		</foreach>
+		WHERE id IN
+		<foreach collection="sysDeptIds" item="item" index="index" separator="," open="(" close=")">
+		  #{item}
+		</foreach>
+	</update>
+</mapper>

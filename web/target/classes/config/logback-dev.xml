@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 这里logback-dev环境，使用了简单同步配置的日志输入方式，如下 -->
+<!-- 不分级别同步文件日志输出配置 -->
+<configuration>
+    <!-- 日志级别 -->
+    <property name="logLevel" value="info"></property>
+    <!-- 日志地址 -->
+    <property name="logPath" value="logs"></property>
+    <!--只保留最近90天的日志-->
+    <property name="maxHistory" value="90"/>
+    <!-- 异步缓冲队列的深度，该值会影响性能.默认值为256 -->
+    <property name="queueSize" value="512"></property>
+
+    <!-- 控制台打印日志的相关配置 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 日志格式 -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 文件保存日志的相关配置，同步 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志格式 -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>${logLevel}</level>
+            <!--匹配到就允许-->
+            <onMatch>ACCEPT</onMatch>
+            <!--没有匹配到就禁止 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
+		          如果同时有<File>和<FileNamePattern>，那么当天日志是<File>，明天会自动把今天
+		          的日志改名为今天的日期。即，<File> 的日志都是当天的 -->
+        <file>${logPath}/cms.log</file>
+        <!-- 滚动策略，按照时间滚动 TimeBasedRollingPolicy -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 文件路径，定义了日志的切分方式：把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
+            <fileNamePattern>${logPath}/cms-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 只保留最近90天的日志 -->
+            <maxHistory>${maxHistory}</maxHistory>
+            <!--用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志
+            <totalSizeCap>1GB</totalSizeCap> -->
+        </rollingPolicy>
+    </appender>
+
+    <!--配置mybatis sql 日志
+    <logger name="com.pf.org.cms.mapper" level="DEBUG"/>-->
+    <!-- 基于INFO处理日志：具体控制台或者文件对日志级别的处理还要看所在appender配置的filter，如果没有配置filter，则使用root配置 
+    <root level="${logLevel}">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+    -->
+    
+    <root level="${logLevel}">
+        <!-- appender在定义后被引用 -->
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

@@ -1,0 +1,55 @@
+server:
+  port: 8080
+
+spring:  
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://188.131.147.228:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: zjw
+#  jpa:
+#    hibernate:
+      # hibernate的配置属性，其主要作用是：自动创建、更新、验证数据库表结构
+#      ddl-auto: update
+    # 开启hibernate对sql语句的打印
+#    show-sql: true
+    # 生成InnoDB存储引擎表结构
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    
+  # redis配置
+  redis:
+    # redis数据库索引（默认为0） 
+    database: 0
+    # redis服务器地址
+    host: 188.131.147.228
+    # redis服务器连接端口
+    port: 6379
+    # redis服务器连接密码（默认为空）
+    password:
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 10000
+    
+  # elasticsearch配置
+  data:
+    elasticsearch:
+      # 节点名字，默认elasticsearch
+      cluster-name: elasticsearch
+      # 节点地址，多个节点用逗号隔开
+      cluster-nodes: 188.131.147.228:9200
+      # 启用
+      repositories:
+        enable: true
+    
+# logback日志配置
+logging:
+  config: classpath:config/logback-prod.xml

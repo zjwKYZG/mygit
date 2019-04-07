@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.dao.SysUserDao">
+
+    <select id="findListByMap" resultType="com.bootdo.domain.SysUserDO">
+        SELECT
+		    id,
+			username,
+			nickname,
+			`password`,
+			is_admin,
+			sys_dept_id,
+			head_pic,
+			sex,
+			email,
+			mobile,
+			remark,
+			created_date,
+			updated_date,
+			`status`
+		FROM 
+		    sys_user
+        <where>
+            <if test="id != null and id != ''"> AND id = #{id} </if>
+            <if test="username != null and username != ''"> AND username = #{username} </if>
+            <if test="nickname != null and nickname != ''"> AND nickname = #{nickname} </if>
+            <if test="password != null and password != ''"> AND password = #{password} </if>
+            <if test="sysDeptId != null and sysDeptId != ''"> AND sys_dept_id = #{sysDeptId} </if>
+            <if test="deptIds != null and deptIds.size() > 0"> AND sys_dept_id IN
+                <foreach collection="deptIds" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="email != null and email != ''"> AND email = #{email} </if>
+            <if test="mobile != null and mobile != ''"> AND mobile = #{mobile} </if>
+            <if test="status != null and status != ''"> AND status = #{status} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                ORDER BY ${sort} ${order}
+            </when>
+            <otherwise>
+                ORDER BY updated_date DESC
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="findCountByMap" resultType="java.lang.Long">
+        SELECT 
+            COUNT(1) 
+        FROM 
+            sys_user
+        <where>
+            <if test="id != null and id != ''"> AND id = #{id} </if>
+            <if test="username != null and username != ''"> AND username = #{username} </if>
+            <if test="nickname != null and nickname != ''"> AND nickname = #{nickname} </if>
+            <if test="password != null and password != ''"> AND password = #{password} </if>
+            <if test="sysDeptId != null and sysDeptId != ''"> AND sys_dept_id = #{sysDeptId} </if>
+            <if test="deptIds != null and deptIds.size() > 0"> AND sys_dept_id IN
+                <foreach collection="deptIds" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="email != null and email != ''"> AND email = #{email} </if>
+            <if test="mobile != null and mobile != ''"> AND mobile = #{mobile} </if>
+            <if test="status != null and status != ''"> AND status = #{status} </if>
+        </where>
+    </select>
+    
+    <select id="findCountBySysDeptIds" parameterType="java.util.List" resultType="java.lang.Integer">
+   		SELECT 
+   		  COUNT(1)
+		FROM 
+		  sys_user 
+		WHERE 
+		  sys_dept_id
+		IN  
+		  <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}       
+          </foreach>
+    </select>
+    
+    <insert id="save" parameterType="com.bootdo.validator.SysUserDOForm"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO 
+		  sys_user
+		(
+		username,
+		nickname,
+		password,
+		sys_dept_id,
+		sex,
+		email,
+		mobile,
+		remark,
+		created_date,
+		updated_date
+		)
+		VALUES
+		(
+		#{username},
+		#{nickname},
+		#{password},
+		#{sysDeptId},
+		#{sex},
+		#{email},
+		#{mobile},
+		#{remark},
+		#{createdDate},
+		#{updatedDate}
+		)
+	</insert>
+</mapper>

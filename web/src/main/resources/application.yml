@@ -1,0 +1,45 @@
+# spring配置
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+    
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    
+  # 默认以dev环境设置  
+  profiles: 
+    active: dev
+    
+  servlet:
+    multipart:
+      max-file-size: 30Mb
+      max-request-size: 30Mb
+      
+  devtools:
+    restart:
+      enabled: true
+      
+  # 使用JavaMailSender发送邮件
+  mail:
+    host: smtp.qq.com
+    username: 962614948
+    password: jwsqoraafqlfbdch
+    
+# mybatis配置   
+mybatis:
+  configuration:
+    # 设置map-underscore-to-camel-case属性为true来开启驼峰功能  
+    map-underscore-to-camel-case: true
+  
+  # mapper文件映射路径  
+  mapper-locations: classpath:mybatis/**/*Mapper.xml
+    
+# 项目属性配置
+project:
+  captcha-open: true                       # 是否开启登录验证码
+  remember-me-timeout: 7                   # cookie记住登录信息时间，默认7天（天）
+  global-session-timeout: 1800             # session会话超时时间，默认30分钟（秒）
+  #file-upload-path: c:/upload/            # 文件上传路径，默认在项目根目录upload下
+  static-path-pattern: /upload/**          # 上传文件静态访问路径

@@ -1,0 +1,57 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project",
+      "type": "com.bootdo.config.properties.ProjectProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.captcha-open",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.file-upload-path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.global-session-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.remember-me-timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.session-validation-interval",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.static-path-pattern",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.xss-enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.xss-excludes",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.bootdo.config.properties.ProjectProperties",
+      "name": "project.xss-url-patterns",
+      "type": "java.lang.String"
+    }
+  ]
+}

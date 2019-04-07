@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.dao.SysMenuDao">
+
+    <select id="findListBySysRoleIds" parameterType="java.util.List" resultType="com.bootdo.domain.SysMenuDO">
+   		SELECT 
+			id,
+			menu_name,
+			pid,
+			url,
+			auth_code,
+			icon,
+			type,
+			sort,
+			remark,
+			created_date,
+			updated_date,
+			`status`
+		FROM 
+		    sys_menu 
+		WHERE
+		    id
+		IN  
+		    (SELECT DISTINCT 
+		    	sys_menu_id 
+		    FROM 
+		        sys_role_menu 
+		    WHERE 
+		        sys_role_id 
+		    IN
+		    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+            </foreach>)
+    </select>
+</mapper>

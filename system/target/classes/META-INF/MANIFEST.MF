@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: system
+Implementation-Version: 2.0.3
+Built-By: 15257
+Implementation-Vendor-Id: com.bootdo
+Build-Jdk: 1.8.0_171
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/bootdo-parent/system
+Created-By: Maven Integration for Eclipse
+

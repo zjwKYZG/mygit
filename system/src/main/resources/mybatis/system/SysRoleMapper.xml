@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.dao.SysRoleDao">
+
+    <select id="findListBySysUserId" resultType="com.bootdo.domain.SysRoleDO">
+    	SELECT 
+			A.id,
+			A.role_name,
+			A.role_logo,
+			A.remark,
+			A.created_date,
+			A.updated_date,
+			A.`status`
+		FROM
+			sys_role A
+		INNER JOIN
+			sys_user_role B
+		ON
+			A.id = B.sys_role_id
+		AND
+			B.sys_user_id = #{value}
+    </select>
+</mapper>
